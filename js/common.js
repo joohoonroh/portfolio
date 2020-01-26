@@ -51,9 +51,9 @@ document.addEventListener('DOMContentLoaded', function(){
         var nowSliderListLeft = target_list.style.left.split('px')[0];
         e.target.classList.forEach(function (value, index) {
           if (value == 'is_prev') {
-            target_list.style.left = Number(nowSliderListLeft) - Number(target_list.offsetWidth) + 'px';
-          } else if (value == 'is_next') {
             target_list.style.left = Number(nowSliderListLeft) + Number(target_list.offsetWidth) + 'px';
+          } else if (value == 'is_next') {
+            target_list.style.left = Number(nowSliderListLeft) - Number(target_list.offsetWidth) + 'px';
           }
         });
       });
