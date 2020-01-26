@@ -1,41 +1,67 @@
 document.addEventListener('DOMContentLoaded', function(){
 
   // html include - start
-  function includeHTML(reload, page) {
-    var z, i, elmnt, file, xhttp;
-    z = document.getElementsByTagName('*');
-    for (i = 0; i < z.length; i++) {
-      elmnt = z[i];
-      file = elmnt.getAttribute('include-html');
-      if (file) {
-        xhttp = new XMLHttpRequest();
+  function includeHTML() {
+    var includeAll = document.querySelectorAll('[include-html]');
+    var nowIndex = 0
+    includeAll.forEach(function (value, index) {
+      var include = includeAll[index];
+      var include_url = include.getAttribute('include-html');
+      if (include_url) {
+        var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
           if (this.readyState == 4 && this.status == 200) {
-            elmnt.innerHTML = this.responseText;
-            elmnt.removeAttribute('include-html');
-            if (reload) {
-              reloadComplete(page);
-            } else {
+            include.innerHTML = this.responseText;
+            include.removeAttribute('include-html');
+            if (++nowIndex == includeAll.length) {
               includeComplete();
             }
           }
         }
-        xhttp.open('GET', file, true);
+        xhttp.open('GET', include_url, true);
         xhttp.send();
         return;
       }
-    }
+    });
   }
   includeHTML();
 
   function includeComplete() {
+    // 최초 실행 경우
+    goToPage();
     changeNav();
+    reloadComplete();
+  }
+
+  function reloadComplete() {
+    // 페이지 이동 경우
     slider();
   }
-  function reloadComplete() {
-    // reload 경우
-  }
   // html include - end
+
+  // goToPage - start
+  function goToPage() {
+    var hrefAll = document.querySelectorAll('a[href]');
+    hrefAll.forEach(function (value, index) {
+      var href = hrefAll[index];
+      href.addEventListener('click', function (e) {
+        e.preventDefault();
+        var container = document.querySelector('.container');
+        var href_url = e.target.getAttribute('href');
+        xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+            container.innerHTML = this.responseText;
+            reloadComplete();
+          }
+        }
+        xhttp.open('GET', href_url, true);
+        xhttp.send();
+        return;
+      });
+    });
+  };
+  // goToPage - end
 
   // changeNav - start
   function changeNav() {
@@ -46,7 +72,6 @@ document.addEventListener('DOMContentLoaded', function(){
       nav_itemAll.forEach(function (value, index) {
         var nav_item = nav_itemAll[index];
         nav_item.addEventListener('click', function (e) {
-          e.preventDefault();
           var nav_item_select = nav.querySelector('.nav_item.is_active');
           if (e.target != nav_item_select) {
             nav_itemAll.forEach(function (value, index) {
@@ -64,18 +89,20 @@ document.addEventListener('DOMContentLoaded', function(){
   // slider - start
   function slider() {
     var sliderAll = document.querySelectorAll('.slider');
-    sliderAll.forEach(function (value, index) {
-      var slider = sliderAll[index];
-      var slider_list = slider.querySelector('.slider_list');
-      var slider_itemAll = slider_list.querySelectorAll('.slider_item');
-      var slider_width = slider.offsetWidth;
-      slider_list.style.left = '0px';
-      slider_itemAll.forEach(function (value, index) {
-        var slider_item = slider_itemAll[index];
-        slider_item.style.left = index * slider_width + 'px';
+    if(sliderAll) {
+      sliderAll.forEach(function (value, index) {
+        var slider = sliderAll[index];
+        var slider_list = slider.querySelector('.slider_list');
+        var slider_itemAll = slider_list.querySelectorAll('.slider_item');
+        var slider_width = slider.offsetWidth;
+        slider_list.style.left = '0px';
+        slider_itemAll.forEach(function (value, index) {
+          var slider_item = slider_itemAll[index];
+          slider_item.style.left = index * slider_width + 'px';
+        });
+        sliderControl(slider, slider_list);
       });
-      sliderControl(slider, slider_list);
-    });
+    }
   }
   function sliderControl(slider, slider_list) {
     var sliderControl_btnAll = slider.querySelectorAll('.sliderControl .sliderControl_btn');
