@@ -28,13 +28,14 @@ document.addEventListener('DOMContentLoaded', function(){
 
   function includeComplete() {
     // 최초 실행 경우
+    keyboardOutline();
     goToPage();
     changeNav();
     reloadComplete();
   }
 
   function reloadComplete() {
-    // 페이지 이동 경우
+    // 최초 실행 포함 페이지 이동시
     slider();
   }
   // html include - end
@@ -62,6 +63,18 @@ document.addEventListener('DOMContentLoaded', function(){
     });
   };
   // goToPage - end
+
+  // keyboardOutline - start
+  function keyboardOutline() {
+    document.addEventListener('keydown', function (e) {
+      if (e.key == 'Tab') {
+        if (!document.querySelector('body.onKeyDown')) {
+          document.querySelector('body').className += 'onKeyDown'
+        }
+      }
+    });
+  }
+  // keyboard_outline - end
 
   // changeNav - start
   function changeNav() {
