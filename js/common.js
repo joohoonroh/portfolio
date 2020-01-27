@@ -106,14 +106,16 @@ document.addEventListener('DOMContentLoaded', function(){
       sliderAll.forEach(function (value, index) {
         var slider = sliderAll[index];
         var slider_list = slider.querySelector('.slider_list');
+        var slider_list_width = slider_list.offsetWidth
         var slider_itemAll = slider_list.querySelectorAll('.slider_item');
-        var slider_width = slider.offsetWidth;
+        slider_list.index = 0;
         slider_list.style.left = '0px';
         slider_itemAll.forEach(function (value, index) {
           var slider_item = slider_itemAll[index];
-          slider_item.style.left = index * slider_width + 'px';
+          slider_item.style.left = index * slider_list_width + 'px';
         });
         sliderControl(slider, slider_list);
+        sliderResize(slider_itemAll, slider_list);
       });
     }
   }
@@ -125,12 +127,30 @@ document.addEventListener('DOMContentLoaded', function(){
         var slider_list_left = slider_list.style.left.split('px')[0];
         e.target.classList.forEach(function (value, index) {
           if (value == 'is_prev') {
+            slider_list.index--;
             slider_list.style.left = Number(slider_list_left) + Number(slider_list.offsetWidth) + 'px';
           } else if (value == 'is_next') {
+            slider_list.index++;
             slider_list.style.left = Number(slider_list_left) - Number(slider_list.offsetWidth) + 'px';
           }
         });
       });
+    });
+  }
+  function sliderResize(slider_itemAll, slider_list) {
+    window.addEventListener('resize', function (e) {
+      slider_list.style.transition = "none";
+      var endCheck = false;
+      var slider_list_width = slider_list.offsetWidth;
+      var slider_list_left = slider_list.style.left.split('px')[0];
+      slider_itemAll.forEach(function (value, index) {
+        var slider_item = slider_itemAll[index];
+        slider_item.style.left = index * slider_list_width + 'px';
+      });
+      slider_list.style.left = slider_list.index * slider_list_width * -1 + 'px';
+      window.setTimeout(function () {
+        slider_list.style.transition = "";
+      }, 10);
     });
   }
   // slider - end
