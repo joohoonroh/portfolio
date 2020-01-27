@@ -111,6 +111,8 @@ document.addEventListener('DOMContentLoaded', function(){
         var slider_item_dummyFirst;
         var slider_item_dummyLast;
         slider_list.index = 0;
+        slider_list.itemLength = slider_itemAll.length;
+        slider_list.block = false;
         slider_list.style.left = '0px';
         slider_itemAll.forEach(function (value, index) {
           var slider_item = slider_itemAll[index];
@@ -135,17 +137,43 @@ document.addEventListener('DOMContentLoaded', function(){
     sliderControl_btnAll.forEach(function (value, index) {
       var sliderControl_btn = sliderControl_btnAll[index];
       sliderControl_btn.addEventListener('click', function (e) {
+        if (slider_list.block == true) {
+          return false;
+        }
         var slider_list_left = slider_list.style.left.split('px')[0];
         e.target.classList.forEach(function (value, index) {
           if (value == 'is_prev') {
             slider_list.index--;
             slider_list.style.left = Number(slider_list_left) + Number(slider_list.offsetWidth) + 'px';
+            if (slider_list.index < 0) {
+              window.setTimeout(function () {
+                slider_list.style.transition = "none";
+                slider_list.index = slider_list.itemLength - 1;
+                slider_list.style.left = -(slider_list.itemLength - 1) * Number(slider_list.offsetWidth) + 'px';
+                window.setTimeout(function () {
+                  slider_list.style.transition = "";
+                }, 10);
+              }, 450);
+            }
           } else if (value == 'is_next') {
             slider_list.index++;
             slider_list.style.left = Number(slider_list_left) - Number(slider_list.offsetWidth) + 'px';
+            if (slider_list.index >= slider_list.itemLength) {
+              window.setTimeout(function () {
+                slider_list.style.transition = "none";
+                slider_list.index = 0;
+                slider_list.style.left = '0px';
+                window.setTimeout(function () {
+                  slider_list.style.transition = "";
+                }, 10);
+              }, 450);
+            }
           }
         });
-        console.log(slider_list.index);
+        slider_list.block = true;
+        window.setTimeout(function () {
+          slider_list.block = false;
+        }, 450);
       });
     });
   }
