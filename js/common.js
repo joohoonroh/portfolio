@@ -31,6 +31,9 @@ document.addEventListener('DOMContentLoaded', function(){
     keyboardOutline();
     goToPage();
     changeNav();
+    headerBgColor();
+
+    // 페이지 이동시
     reloadComplete();
   }
 
@@ -39,6 +42,26 @@ document.addEventListener('DOMContentLoaded', function(){
     slider();
   }
   // html include - end
+
+  // headerBgColor - start
+    function headerBgColor() {
+      function headerPositionCheck() {
+        var header = document.querySelector('.header');
+        console.log(window.scrollY || document.scrollTop);
+        if (window.scrollY || document.scrollTop) {
+          if (!document.querySelector('.header.is_onScroll')) {
+            header.className += " is_onScroll";
+          }
+        } else {
+          header.className = header.className.replace(/(?:^|\s)is_onScroll(?!\S)/g , '');
+        }
+      }
+      headerPositionCheck();
+      window.addEventListener('scroll', function (e) {
+        headerPositionCheck();
+      });
+    }
+  // headerBgColor - end
 
   // goToPage - start
   function goToPage() {
@@ -153,7 +176,7 @@ document.addEventListener('DOMContentLoaded', function(){
                 window.setTimeout(function () {
                   slider_list.style.transition = "";
                 }, 10);
-              }, 450);
+              }, 440);
             }
           } else if (value == 'is_next') {
             slider_list.index++;
@@ -166,7 +189,7 @@ document.addEventListener('DOMContentLoaded', function(){
                 window.setTimeout(function () {
                   slider_list.style.transition = "";
                 }, 10);
-              }, 450);
+              }, 440);
             }
           }
         });
