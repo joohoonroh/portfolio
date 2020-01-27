@@ -6,53 +6,6 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Joohoon</title>
   <link href="css/default.css" type="text/css" rel="stylesheet" />
-
-  <style>
-    .banner {
-      position: relative;
-      width: 100%;
-      height: 880px;
-      background: no-repeat center;
-      overflow: hidden;
-    }
-    .banner .slider_list {
-      position: relative;
-      height: 100%;
-      width: 100%;
-      transition: left 0.5s ease-out;
-    }
-    .banner .slider_item {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      left: 0;
-      top: 0;
-      background-size: cover;
-    }
-    .banner .sliderControl_btn {
-      position: absolute;
-      top: calc(50% - 33px);
-      z-index: 100;
-      width: 66px;
-      height: 66px;
-      line-height: 66px;
-      background-color: rgba(255, 255, 255, 0.1);
-      border: none;
-      border-radius: 66px;
-      font-size: 30px;
-      color: #fff;
-      transition: background-color 0.3s ease-out;
-    }
-    .banner .sliderControl_btn:hover {
-      background-color: #fc6060;
-    }
-    .banner .sliderControl_btn.is_prev {
-      left: 70px;
-    }
-    .banner .sliderControl_btn.is_next {
-      right: 70px;
-    }
-  </style>
 </head>
 <body>
   <header class="header" include-html="layout/header.html"></header>

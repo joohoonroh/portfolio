@@ -47,7 +47,6 @@ document.addEventListener('DOMContentLoaded', function(){
     function headerBgColor() {
       function headerPositionCheck() {
         var header = document.querySelector('.header');
-        console.log(window.scrollY || document.scrollTop);
         if (window.scrollY || document.scrollTop) {
           if (!document.querySelector('.header.is_onScroll')) {
             header.className += " is_onScroll";
@@ -76,6 +75,7 @@ document.addEventListener('DOMContentLoaded', function(){
         xhttp.onreadystatechange = function() {
           if (this.readyState == 4 && this.status == 200) {
             container.innerHTML = this.responseText;
+            headerNavSync(href_url);
             reloadComplete();
           }
         }
@@ -86,6 +86,17 @@ document.addEventListener('DOMContentLoaded', function(){
     });
   };
   // goToPage - end
+
+  // headerNavSync - start
+  function headerNavSync(href_url) {
+    changeNav.item.forEach(function (value, index) {
+      value.className = value.className.replace(/(?:^|\s)is_active(?!\S)/g , '');
+      if (value.getAttribute('href') == href_url) {
+        value.className += " is_active";
+      }
+    });
+  }
+  // headerNavSync - end
 
   // keyboardOutline - start
   function keyboardOutline() {
@@ -101,12 +112,14 @@ document.addEventListener('DOMContentLoaded', function(){
 
   // changeNav - start
   function changeNav() {
+    changeNav.item = [];
     var navAll = document.querySelectorAll('.nav');
     navAll.forEach(function (value, index) {
       var nav = navAll[index];
       var nav_itemAll = nav.querySelectorAll('.nav_item');
       nav_itemAll.forEach(function (value, index) {
         var nav_item = nav_itemAll[index];
+        changeNav.item[index] = nav_item;
         nav_item.addEventListener('click', function (e) {
           var nav_item_select = nav.querySelector('.nav_item.is_active');
           if (e.target != nav_item_select) {
