@@ -7,11 +7,40 @@
     background: no-repeat center;
     overflow: hidden;
   }
+  .bannerText {
+    position: absolute;
+    width: 1100px;
+    padding: 0 15px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 100;
+  }
+  .bannerText_title {
+    font-weight: 700;
+    line-height: 1.3;
+    font-size: 82px;
+    display: block;
+    margin-bottom: 0;
+    background: -webkit-linear-gradient(#ff9696, #ffe89e);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .bannerText_description {
+    display: block;
+    width: 630px;
+    line-height: 1.9;
+    color: #ffffff;
+    margin-bottom: 50px;
+    font-size: 16px;
+    font-weight: 400;
+  }
   .banner .slider_list {
     position: relative;
     height: 100%;
     width: 100%;
     transition: left 0.5s ease-out;
+    background-color: #000;
   }
   .banner .slider_item {
     position: absolute;
@@ -20,7 +49,16 @@
     left: 0;
     top: 0;
     background-size: cover;
-    background-color: red;
+  }
+  .banner .slider_item:after {
+    content: "";
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
   }
   .banner .sliderControl_btn {
     position: absolute;
@@ -45,19 +83,30 @@
   .banner .sliderControl_btn.is_next {
     right: 70px;
   }
+  @media all and (max-width:1280px) {
+    .bannerText {
+      width: 900px;
+    }
+  }
+  
 </style>
 
 <div class="banner slider">
+  <div class="bannerText">
+    <strong class="bannerText_title">
+      Hello<br>
+      I'm JooHoon
+    </strong>
+    <p class="bannerText_description">
+      I'm a creative web developer.
+      I like to explore new ways.
+      Create what I want without following others.
+    </p>
+  </div>
   <ul class="slider_list">
-    <li class="slider_item" style="background-image: url(./img/banner_1.jpg);">
-      banner1
-    </li>
-    <li class="slider_item" style="background-image: url(./img/banner_2.jpg);">
-      banner2
-    </li>
-    <li class="slider_item" style="background-image: url(./img/banner_3.jpg);">
-      banner3
-    </li>
+    <li class="slider_item" style="background-image: url(./img/banner_1.jpg);"></li>
+    <li class="slider_item" style="background-image: url(./img/banner_2.jpg);"></li>
+    <li class="slider_item" style="background-image: url(./img/banner_3.jpg);"></li>
   </ul>
   <div class="sliderControl">
     <button class="sliderControl_btn ti-arrow-left is_prev">
