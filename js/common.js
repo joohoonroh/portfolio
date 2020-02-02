@@ -57,6 +57,7 @@ addEventListener('DOMContentLoaded', function(){
     reload : function () {
       // 최초 실행 + 페이지 이동시 동작
       slider.init();
+      category.init();
     }
   }
   htmlInclude.init();
@@ -98,7 +99,7 @@ addEventListener('DOMContentLoaded', function(){
       var header = document.querySelector('.header');
       if (window.scrollY || document.scrollTop) {
         if (!document.querySelector('.header.is_onScroll')) {
-          header.className += " is_onScroll";
+          header.className += ' is_onScroll';
         }
       } else {
         header.className = header.className.replace(/(?:^|\s)is_onScroll(?!\S)/g , '');
@@ -120,7 +121,7 @@ addEventListener('DOMContentLoaded', function(){
                 var nav_item = nav_itemAll[index];
                 nav_item.className = nav_item.className.replace(/(?:^|\s)is_active(?!\S)/g , '');
               });
-              e.target.className += " is_active";
+              e.target.className += ' is_active';
             }
           });
         });
@@ -130,7 +131,7 @@ addEventListener('DOMContentLoaded', function(){
       header.item.forEach(function (value, index) {
         value.className = value.className.replace(/(?:^|\s)is_active(?!\S)/g , '');
         if (value.getAttribute('href') == href_url) {
-          value.className += " is_active";
+          value.className += ' is_active';
         }
       });
     }
@@ -163,18 +164,18 @@ addEventListener('DOMContentLoaded', function(){
           sliderData['slider_list'].addEventListener('transitionend', function() {
             sliderData['slider_block'] = false;
             if (sliderData['slider_list_index'] < 0) {
-              sliderData['slider_list'].style.transition = "none";
+              sliderData['slider_list'].style.transition = 'none';
               sliderData['slider_list_index'] = sliderData['slider_item_length'] -1;
               sliderData['slider_list'].style.left = -(sliderData['slider_item_length'] - 1) * Number(sliderData['slider_list'].offsetWidth) + 'px';
               window.setTimeout(function () {
-                sliderData['slider_list'].style.transition = "";
+                sliderData['slider_list'].style.transition = '';
               }, 1);
             } else if (sliderData['slider_list_index'] >= sliderData['slider_item_length']) {
-              sliderData['slider_list'].style.transition = "none";
+              sliderData['slider_list'].style.transition = 'none';
               sliderData['slider_list_index'] = 0;
               sliderData['slider_list'].style.left = '0px';
               window.setTimeout(function () {
-                sliderData['slider_list'].style.transition = "";
+                sliderData['slider_list'].style.transition = '';
               }, 1);
             }
           });
@@ -234,14 +235,14 @@ addEventListener('DOMContentLoaded', function(){
     resize : function (sliderIndex) {
       var self = slider;
       var sliderData = self.sliderData[sliderIndex];
-      sliderData['slider_list'].style.transition = "none";
+      sliderData['slider_list'].style.transition = 'none';
       sliderData['slider_list_width'] = sliderData['slider_list'].offsetWidth;
       sliderData['slider_itemDummyAll'].forEach(function (value, index) {
         value.style.left = (index - 1) * sliderData['slider_list_width'] + 'px';
       });
       sliderData['slider_list'].style.left = sliderData['slider_list_index'] * sliderData['slider_list_width'] * -1 + 'px';
       window.setTimeout(function () {
-        sliderData['slider_list'].style.transition = "";
+        sliderData['slider_list'].style.transition = '';
       }, 1);
     },
     touchmove : function (sliderIndex) {
@@ -286,4 +287,59 @@ addEventListener('DOMContentLoaded', function(){
   }
   // slider - end
 
+  // category - start
+  var category = {
+    categoryData : [],
+    init : function () {
+      self = this;
+      var categoryAll = document.querySelectorAll('.category');
+      if(categoryAll) {
+        categoryAll.forEach(function (value, categoryIndex) {
+          var categoryData = {};
+          categoryData['nowCategory'] = 'all';
+          categoryData['category'] = categoryAll[categoryIndex];
+          categoryData['categoryControl'] = categoryData['category'].querySelector('.categoryControl');
+          categoryData['categoryControl_itemAll'] = categoryData['categoryControl'].querySelectorAll('.categoryControl_item');
+          categoryData['categoryControl_itemAll'].forEach(function (value, clickIndex) {
+            value.addEventListener('click', function (e) {
+              self.changeMenu(categoryIndex, clickIndex);
+            });
+          });
+          categoryData['categoryBox'] = categoryData['category'].querySelector('.categoryBox');
+          categoryData['categoryBox_itemAll'] = categoryData['categoryBox'].querySelectorAll('.categoryBox_item');
+          self.categoryData[categoryIndex] = categoryData;
+          self.positioning(categoryIndex);
+        });
+      }
+    },
+    changeMenu : function (categoryIndex, clickIndex) {
+      var self = this;
+      var categoryData = self.categoryData[categoryIndex];
+      var clickItem = categoryData['categoryControl_itemAll'][clickIndex];
+      categoryData['categoryControl_itemAll'].forEach(function (value, index) {
+        value.className = value.className.replace(/(?:^|\s)is_active(?!\S)/g , '');
+      });
+      clickItem.className += ' is_active';
+      categoryData['nowCategory'] = clickItem.getAttribute('data-category');
+      self.changeList(categoryIndex);
+    },
+    changeList : function (categoryIndex) {
+      var self = this;
+      var categoryData = self.categoryData[categoryIndex];
+      var nowCategory = categoryData['nowCategory'];
+      categoryData['categoryBox_itemAll'].forEach(function (value, index) {
+        value.className = value.className.replace(/(?:^|\s)is_hide(?!\S)/g , '');
+        if (nowCategory != 'all' && value.getAttribute('data-category') != nowCategory) {
+          value.className += ' is_hide';
+        }
+      });
+    },
+    positioning : function (categoryIndex) {
+      var self = this;
+      var categoryData = self.categoryData[categoryIndex];
+      categoryData['categoryBox'].style.height = '';
+      console.log("positioning");
+    }
+  }
+  // category - end
 });

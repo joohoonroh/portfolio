@@ -1,5 +1,6 @@
 
 <style>
+  /* banner */
   .banner {
     position: relative;
     width: 100%;
@@ -89,7 +90,58 @@
       width: 900px;
     }
   }
-  
+  /* // banner */
+
+  /* category */
+  .category {
+    background-color: #fff;
+    padding: 80px 5%;
+  }
+  .categoryControl {
+    text-align: center;
+  }
+  .categoryControl_item {
+    background-color: transparent;
+    border: 0;
+    margin: 0 25px;
+    padding: 0;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 34px;
+  }
+  .categoryControl_item:after {
+    content: "";
+    display: block;
+    background-color: #fc6060;
+    width: 0;
+    height: 3px;
+    transition: width 0.5s;
+  }
+  .categoryControl_item.is_active:after {
+    width: 100%;
+  }
+  .categoryBox {
+    position: relative;
+    padding-top: 30px;
+    font-size: 0;
+    line-height: 0;
+  }
+  .categoryBox_item {
+    display: inline-block;
+    width: 25%;
+    padding: 0 15px;
+    margin-bottom: 30px;
+    font-size: 20px;
+    font-weight: 600;
+    transition: 0.5s;
+    box-sizing: border-box;
+  }
+  .categoryBox_itemImg {
+    width: 100%;
+    padding-bottom: 60%;
+    background-color: tomato;
+  }
+  /* // category */
 </style>
 
 <div class="banner slider">
@@ -118,6 +170,44 @@
     </button>
   </div>
 </div>
-<div class="testBox" style="height: 1000px; background-color: beige;">
-  <!-- test -->
+<div class="category">
+  <div class="categoryControl">
+    <button class="categoryControl_item is_active" data-category="all">All</button>
+    <button class="categoryControl_item" data-category="human">Human</button>
+    <button class="categoryControl_item" data-category="nature">Nature</button>
+    <button class="categoryControl_item" data-category="contry">Country</button>
+    <button class="categoryControl_item" data-category="video">Video</button>
+  </div>
+  <div class="categoryBox">
+    <div class="categoryBox_item" data-category="human">
+      <div class="categoryBox_itemImg" data-size="1">human</div>
+    </div>
+    <div class="categoryBox_item" data-category="contry">
+      <div class="categoryBox_itemImg" data-size="2" style="padding-bottom: calc(90% + 30px);">contry</div>
+    </div>
+    <div class="categoryBox_item" data-category="nature">
+      <div class="categoryBox_itemImg" data-size="3" style="padding-bottom: calc(150% + 60px);">nature</div>
+    </div>
+    <div class="categoryBox_item" data-category="video">
+      <div class="categoryBox_itemImg">video</div>
+    </div>
+    <div class="categoryBox_item" data-category="nature">
+      <div class="categoryBox_itemImg">nature</div>
+    </div>
+    <div class="categoryBox_item" data-category="nature">
+      <div class="categoryBox_itemImg">nature</div>
+    </div>
+    <div class="categoryBox_item" data-category="contry">
+      <div class="categoryBox_itemImg">contry</div>
+    </div>
+    <div class="categoryBox_item" data-category="human">
+      <div class="categoryBox_itemImg">human</div>
+    </div>
+    <div class="categoryBox_item" data-category="nature">
+      <div class="categoryBox_itemImg">nature</div>
+    </div>
+    <div class="categoryBox_item" data-category="human">
+      <div class="categoryBox_itemImg">human</div>
+    </div>
+  </div>
 </div>

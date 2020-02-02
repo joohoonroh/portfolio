@@ -49,8 +49,8 @@
   .headerNav_item {
     position: relative;
     display: inline-block;
-    padding: 0 20px;
-    line-height: 40px;
+    margin: 0 20px;
+    line-height: 34px;
     color: #fff;
     font-size: 16px;
     font-weight: 500;
@@ -59,14 +59,16 @@
   .headerNav_item:hover {
     color: #fc6060;
   }
-  .headerNav_item.is_active:after {
-    position: absolute;
-    bottom: 4px;
+  .headerNav_item:after {
     content: "";
     display: block;
-    width: calc(100% - 40px);
+    width: 0;
     height: 2px;
     background-color: #fc6060;
+    transition: width 0.5s;
+  }
+  .headerNav_item.is_active:after {
+    width: 100%;
   }
 </style>
 

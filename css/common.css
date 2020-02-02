@@ -14,4 +14,5 @@ a:focus, button:focus {
 .onKeyDown button:focus {
   outline-width: 1px;
 }
+.is_hide {display: none !important;}
 .is_blind {position:relative; display: block; font-size:1px; color:rgba(0, 0, 0, 0); overflow:hidden; white-space: nowrap; height:1px; width:1px; text-indent:1980px;}
