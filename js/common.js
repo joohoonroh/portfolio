@@ -7,7 +7,7 @@ addEventListener('DOMContentLoaded', function(){
   }
   Object.prototype.classRemove = function (input) {
     if (this.className.split(input).length != 1) {
-      this.className = this.className.replace('' + input, '');
+      this.className = this.className.replace(' ' + input, '');
     }
   }
 
