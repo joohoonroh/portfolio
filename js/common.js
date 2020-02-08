@@ -1,5 +1,16 @@
 addEventListener('DOMContentLoaded', function(){
 
+  Object.prototype.classAdd = function (input) {
+    if (this.className.split(input).length == 1) {
+      this.className = this.className + ' ' + input;
+    }
+  }
+  Object.prototype.classRemove = function (input) {
+    if (this.className.split(input).length != 1) {
+      this.className = this.className.replace('' + input, '');
+    }
+  }
+
   // htmlInclude - start
   var htmlInclude = {
     includeAll : document.querySelectorAll('[include-html]'),
@@ -85,7 +96,7 @@ addEventListener('DOMContentLoaded', function(){
     outline : function (e) {
       if (e.key == 'Tab') {
         if (!document.querySelector('body.onKeyDown')) {
-          document.querySelector('body').className += 'onKeyDown'
+          document.querySelector('body').classAdd('onKeyDown');
         }
       }
     }
@@ -99,10 +110,10 @@ addEventListener('DOMContentLoaded', function(){
       var header = document.querySelector('.header');
       if (window.scrollY || document.scrollTop) {
         if (!document.querySelector('.header.is_onScroll')) {
-          header.className += ' is_onScroll';
+          header.classAdd('is_onScroll');
         }
       } else {
-        header.className = header.className.replace(/(?:^|\s)is_onScroll(?!\S)/g , '');
+        header.classRemove('is_onScroll');
       }
     },
     changeNav : function () {
@@ -119,9 +130,9 @@ addEventListener('DOMContentLoaded', function(){
             if (e.target != nav_item_select) {
               nav_itemAll.forEach(function (value, index) {
                 var nav_item = nav_itemAll[index];
-                nav_item.className = nav_item.className.replace(/(?:^|\s)is_active(?!\S)/g , '');
+                nav_item.classRemove('is_active');
               });
-              e.target.className += ' is_active';
+              e.target.classAdd('is_active');
             }
           });
         });
@@ -129,9 +140,9 @@ addEventListener('DOMContentLoaded', function(){
     },
     navSync : function (href_url) {
       header.item.forEach(function (value, index) {
-        value.className = value.className.replace(/(?:^|\s)is_active(?!\S)/g , '');
+        value.classRemove('is_active');
         if (value.getAttribute('href') == href_url) {
-          value.className += ' is_active';
+          value.classAdd('is_active');
         }
       });
     }
@@ -317,9 +328,9 @@ addEventListener('DOMContentLoaded', function(){
       var categoryData = self.categoryData[categoryIndex];
       var clickItem = categoryData['categoryControl_itemAll'][clickIndex];
       categoryData['categoryControl_itemAll'].forEach(function (value, index) {
-        value.className = value.className.replace(/(?:^|\s)is_active(?!\S)/g , '');
+        value.classRemove('is_active');
       });
-      clickItem.className += ' is_active';
+      clickItem.classAdd('is_active');
       categoryData['nowCategory'] = clickItem.getAttribute('data-category');
       self.changeList(categoryIndex);
     },
@@ -328,9 +339,9 @@ addEventListener('DOMContentLoaded', function(){
       var categoryData = self.categoryData[categoryIndex];
       var nowCategory = categoryData['nowCategory'];
       categoryData['categoryBox_itemAll'].forEach(function (value, index) {
-        value.className = value.className.replace(/(?:^|\s)is_hide(?!\S)/g , '');
+        value.classRemove('is_hide');
         if (nowCategory != 'all' && value.getAttribute('data-category') != nowCategory) {
-          value.className += ' is_hide';
+          value.classAdd('is_hide');
         }
       });
     },
@@ -338,7 +349,6 @@ addEventListener('DOMContentLoaded', function(){
       var self = this;
       var categoryData = self.categoryData[categoryIndex];
       categoryData['categoryBox'].style.height = '';
-      console.log("positioning");
     }
   }
   // category - end
