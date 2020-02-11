@@ -314,12 +314,14 @@ addEventListener('DOMContentLoaded', function(){
           categoryData['categoryControl_itemAll'].forEach(function (value, clickIndex) {
             value.addEventListener('click', function (e) {
               self.changeMenu(categoryIndex, clickIndex);
+              self.changeList(categoryIndex);
+              self.positioning(categoryIndex);
             });
           });
           categoryData['categoryBox'] = categoryData['category'].querySelector('.categoryBox');
           categoryData['categoryBox_itemAll'] = categoryData['categoryBox'].querySelectorAll('.categoryBox_item');
           self.categoryData[categoryIndex] = categoryData;
-          self.positioning(categoryIndex);
+          self.sizeChack(categoryIndex);
         });
       }
     },
@@ -332,24 +334,74 @@ addEventListener('DOMContentLoaded', function(){
       });
       clickItem.classAdd('is_active');
       categoryData['nowCategory'] = clickItem.getAttribute('data-category');
-      self.changeList(categoryIndex);
     },
     changeList : function (categoryIndex) {
       var self = this;
       var categoryData = self.categoryData[categoryIndex];
       var nowCategory = categoryData['nowCategory'];
       categoryData['categoryBox_itemAll'].forEach(function (value, index) {
-        value.classRemove('is_hide');
+        value.classRemove('is_transitionHide');
         if (nowCategory != 'all' && value.getAttribute('data-category') != nowCategory) {
-          value.classAdd('is_hide');
+          value.classAdd('is_transitionHide');
         }
       });
+    },
+    sizeChack : function (categoryIndex) {
+      var self = this;
+      var categoryData = self.categoryData[categoryIndex];
+      var nowCategory = categoryData['nowCategory'];
+      var size_1 = '60%';
+      var size_2 = 'calc(90% + 30px)';
+      var size_3 = 'calc(150% + 60px)';
+      categoryData['categoryBox_itemAll'].forEach(function (value, index) {
+        var categoryBox_itemImg = value.querySelector('.categoryBox_itemImg');
+        var dataSize = categoryBox_itemImg.getAttribute('data-size');
+        if (dataSize == 1) {
+          categoryBox_itemImg.style.paddingBottom = size_1;
+        } else if (dataSize == 2) {
+          categoryBox_itemImg.style.paddingBottom = size_2;
+        } else if (dataSize == 3) {
+          categoryBox_itemImg.style.paddingBottom = size_3;
+        }
+      });
+      self.positioning(categoryIndex);
     },
     positioning : function (categoryIndex) {
       var self = this;
       var categoryData = self.categoryData[categoryIndex];
+      var maxHeight = 0;
+      var nowCategoryBox_item = categoryData['categoryBox'].querySelectorAll('.categoryBox_item:not(.is_transitionHide)');
       categoryData['categoryBox'].style.height = '';
+      categoryData['categoryBox_itemAll'].forEach(function (value, index) {
+        value.style.zIndex = '';
+      });
+      nowCategoryBox_item.forEach(function (value, index) {
+        value.style.position = 'absolute';
+        var col = parseInt(index / 4);
+        var chackHeight = 0;
+        var chackMaxHeight = 0;
+        value.style.zIndex = '10';
+        if (index % 4 == 0) {
+          value.style.left = '0';
+        } else if (index % 4 == 1) {
+          value.style.left = '25%';
+        } else if (index % 4 == 2) {
+          value.style.left = '50%';
+        } else if (index % 4 == 3) {
+          value.style.left = '75%';
+        }
+        for (var i = 1; i <= col; i++) {
+          chackHeight += nowCategoryBox_item[index - 4 * i].offsetHeight + 30;
+        }
+        chackMaxHeight = chackHeight + nowCategoryBox_item[index].offsetHeight;
+        value.style.top = chackHeight + 'px';
+        if (maxHeight < chackMaxHeight) {
+          maxHeight = chackMaxHeight;
+        }
+      });
+      categoryData['categoryBox'].style.height = maxHeight + 'px';
     }
+
   }
   // category - end
 });

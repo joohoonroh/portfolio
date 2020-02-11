@@ -122,7 +122,7 @@
   }
   .categoryBox {
     position: relative;
-    padding-top: 30px;
+    margin: 30px 0;
     font-size: 0;
     line-height: 0;
   }
@@ -133,13 +133,13 @@
     margin-bottom: 30px;
     font-size: 20px;
     font-weight: 600;
-    transition: 0.5s;
+    transition: transform 0.8s, left 0.5s, top 0.5s;
     box-sizing: border-box;
   }
   .categoryBox_itemImg {
     width: 100%;
     padding-bottom: 60%;
-    background-color: tomato;
+    background-size: cover;
   }
   /* // category */
 </style>
@@ -180,34 +180,37 @@
   </div>
   <div class="categoryBox">
     <div class="categoryBox_item" data-category="human">
-      <div class="categoryBox_itemImg" data-size="1">human</div>
+      <div class="categoryBox_itemImg" data-size="1" style="background-image: url(./img/banner_1.jpg);">human</div>
     </div>
     <div class="categoryBox_item" data-category="contry">
-      <div class="categoryBox_itemImg" data-size="2" style="padding-bottom: calc(90% + 30px);">contry</div>
+      <div class="categoryBox_itemImg" data-size="2" style="background-image: url(./img/banner_2.jpg);">contry</div>
     </div>
     <div class="categoryBox_item" data-category="nature">
-      <div class="categoryBox_itemImg" data-size="3" style="padding-bottom: calc(150% + 60px);">nature</div>
+      <div class="categoryBox_itemImg" data-size="1" style="background-image: url(./img/banner_3.jpg);">nature</div>
     </div>
     <div class="categoryBox_item" data-category="video">
-      <div class="categoryBox_itemImg">video</div>
+      <div class="categoryBox_itemImg" data-size="2" style="background-image: url(./img/banner_1.jpg);">video</div>
     </div>
     <div class="categoryBox_item" data-category="nature">
-      <div class="categoryBox_itemImg">nature</div>
+      <div class="categoryBox_itemImg" data-size="2" style="background-image: url(./img/banner_2.jpg);">nature</div>
     </div>
     <div class="categoryBox_item" data-category="nature">
-      <div class="categoryBox_itemImg">nature</div>
+      <div class="categoryBox_itemImg" data-size="3" style="background-image: url(./img/banner_3.jpg);">nature</div>
     </div>
     <div class="categoryBox_item" data-category="contry">
-      <div class="categoryBox_itemImg">contry</div>
+      <div class="categoryBox_itemImg" data-size="2" style="background-image: url(./img/banner_1.jpg);">contry</div>
     </div>
     <div class="categoryBox_item" data-category="human">
-      <div class="categoryBox_itemImg">human</div>
+      <div class="categoryBox_itemImg" data-size="1" style="background-image: url(./img/banner_2.jpg);">human</div>
     </div>
     <div class="categoryBox_item" data-category="nature">
-      <div class="categoryBox_itemImg">nature</div>
+      <div class="categoryBox_itemImg" data-size="3" style="background-image: url(./img/banner_3.jpg);">nature</div>
     </div>
     <div class="categoryBox_item" data-category="human">
-      <div class="categoryBox_itemImg">human</div>
+      <div class="categoryBox_itemImg" data-size="1" style="background-image: url(./img/banner_1.jpg);">human</div>
+    </div>
+    <div class="categoryBox_item" data-category="human">
+      <div class="categoryBox_itemImg" data-size="3" style="background-image: url(./img/banner_2.jpg);">human</div>
     </div>
   </div>
 </div>
