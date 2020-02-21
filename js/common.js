@@ -1,15 +1,25 @@
 addEventListener('DOMContentLoaded', function(){
 
+  // classList ie 대응
   Object.prototype.classAdd = function (input) {
     if (this.className.split(input).length == 1) {
       this.className = this.className + ' ' + input;
+      this.className = this.className.replace('  ', ' ');
     }
   }
   Object.prototype.classRemove = function (input) {
     if (this.className.split(input).length != 1) {
-      this.className = this.className.replace(' ' + input, '');
+      this.className = this.className.replace(input, '').replace('  ', ' ');
     }
   }
+  Object.prototype.classToggle = function (input) {
+    if (this.className.split(input).length == 1) {
+      this.classAdd(input);
+    } else {
+      this.classRemove(input);
+    }
+  }
+
   Object.prototype.windowWidth = function () {
     return window.innerWidth;
   }
@@ -65,8 +75,7 @@ addEventListener('DOMContentLoaded', function(){
     complete : function () {
       // 최초 실행시 동작
       this.gotoPage();
-      header.changeNav();
-      header.positionCheck();
+      header.init();
 
       // 페이지 이동시 추가
       this.reload();
@@ -92,7 +101,7 @@ addEventListener('DOMContentLoaded', function(){
 
   window.addEventListener('scroll', function (e) {
     // 스크롤시 동작
-    header.positionCheck();
+    header.scrollCheck();
   });
 
   window.addEventListener('keydown', function (e) {
@@ -115,7 +124,12 @@ addEventListener('DOMContentLoaded', function(){
   // header - start
   var header = {
     item : [],
-    positionCheck : function () {
+    init : function (params) {
+      this.scrollCheck();
+      this.changeNav();
+      this.menuControll();
+    },
+    scrollCheck : function () {
       var header = document.querySelector('.header');
       if (window.scrollY || document.scrollTop) {
         if (!document.querySelector('.header.is_onScroll')) {
@@ -124,6 +138,18 @@ addEventListener('DOMContentLoaded', function(){
       } else {
         header.classRemove('is_onScroll');
       }
+    },
+    menuControll : function () {
+      var headerNav_menu = document.querySelector('.headerNav_menu');
+      var headerNav_itemAll = document.querySelectorAll('.headerNav_item');
+      headerNav_menu.addEventListener('click', function (e) {
+        document.querySelector('.header_wrap').classToggle('is_menuOpen');
+      })
+      headerNav_itemAll.forEach(function (value, index) {
+        value.addEventListener('click', function (e) {
+          document.querySelector('.header_wrap').classRemove('is_menuOpen');
+        })
+      })
     },
     changeNav : function () {
       var self = this;
@@ -156,7 +182,7 @@ addEventListener('DOMContentLoaded', function(){
       });
     }
   }
-  header.positionCheck();
+  header.scrollCheck();
   // header - end
 
   // slider - start
