@@ -19,7 +19,14 @@ addEventListener('DOMContentLoaded', function(){
       this.classRemove(input);
     }
   }
-
+  Object.prototype.addEvent = function (event, func) {
+    var self = this;
+    event.replace(' ','').split(',').forEach(function (value, index) {
+      self.addEventListener(value, function (e) {
+        func(e);
+      });
+    });
+  }
   Object.prototype.windowWidth = function () {
     return window.innerWidth;
   }
@@ -301,11 +308,12 @@ addEventListener('DOMContentLoaded', function(){
       var mouseChack = false;
       var moveX = 0;
       var startX = 0;
-      sliderData['slider'].addEventListener('mousedown', function (e) {
+      // addEventListener 다수 이벤트 지원 불가하여 addEvent 메서드 생성
+      sliderData['slider'].addEvent('mousedown, touchstart', function (e) {
         mouseChack = true;
         sliderData['slider_list'].style.transition = 'transform 0s';
       });
-      sliderData['slider'].addEventListener('mouseup', function (e) {
+      sliderData['slider'].addEvent('mouseup, touchend', function (e) {
         if (moveX > 20) {
           self.pageMove('prev', sliderIndex);
         } else if (moveX < -20) {
@@ -317,19 +325,20 @@ addEventListener('DOMContentLoaded', function(){
         sliderData['slider_list'].style.transform = '';
         sliderData['slider_list'].style.transition = '';
       });
-      sliderData['slider'].addEventListener('mouseleave', function (e) {
+      sliderData['slider'].addEvent('mouseleave, touchcancel', function (e) {
         mouseChack = false;
         moveX = 0;
         startX = 0;
         sliderData['slider_list'].style.transform = '';
         sliderData['slider_list'].style.transition = '';
       });
-      sliderData['slider'].addEventListener('mousemove', function (e) {
+      sliderData['slider'].addEvent('mousemove, touchmove', function (e) {
         if (mouseChack) {
           if (!startX) {
-            startX = e.x;
+            // 이벤트에 따라 x값 분기처리
+            startX = (e.x) ? e.x : e.targetTouches[0].clientX;
           }
-          moveX = -(startX - e.x);
+          moveX = -(startX - ((e.x) ? e.x : e.targetTouches[0].clientX));
           sliderData['slider_list'].style.transform = 'translateX(' + moveX + 'px)';
         }
       });
