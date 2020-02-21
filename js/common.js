@@ -142,8 +142,12 @@ addEventListener('DOMContentLoaded', function(){
     menuControll : function () {
       var headerNav_menu = document.querySelector('.headerNav_menu');
       var headerNav_itemAll = document.querySelectorAll('.headerNav_item');
+      var header_logoLink = document.querySelector('.header_logoLink');
       headerNav_menu.addEventListener('click', function (e) {
         document.querySelector('.header_wrap').classToggle('is_menuOpen');
+      })
+      header_logoLink.addEventListener('click', function (e) {
+        document.querySelector('.header_wrap').classRemove('is_menuOpen');
       })
       headerNav_itemAll.forEach(function (value, index) {
         value.addEventListener('click', function (e) {
